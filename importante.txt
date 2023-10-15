@@ -1,0 +1,18 @@
+iniciar uma migration no sequelize
+criar uma tabela
+npx sequelize migration:create --name "alunos"
+criar o db
+npx sequelize db:migrate
+
+
+criando uma seed
+
+npx sequelize seed:generate --name criar_filials
+
+para finalizar as seeds 
+
+npx sequelize db:seed:all
+
+
+
+
