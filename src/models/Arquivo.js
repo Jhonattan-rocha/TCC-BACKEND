@@ -28,16 +28,6 @@ class Arquivo extends Model{
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          id_empresa_dona: {
-            type: Sequelize.INTEGER,
-            allowNull: true,
-            references: {
-              model: 'empresas',
-              key: 'id',
-            },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
-          },
           mime_type: {
             type: Sequelize.STRING,
             allowNull: true
@@ -67,10 +57,6 @@ class Arquivo extends Model{
     };
 
     static associate(models){
-      this.belongsTo(models.Empresa, {
-        foreignKey: 'id_empresa_dona',
-        onDelete: 'cascade',
-      });
       this.belongsTo(models.Funcionario, {
         foreignKey: "id_dono",
         onDelete: "cascade"

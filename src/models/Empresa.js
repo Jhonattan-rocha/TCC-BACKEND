@@ -125,10 +125,6 @@ class Empresa extends Model{
     
     static associate(models){
         this.hasMany(models.Filial, { foreignKey: 'id_empresa', onDelete: 'cascade' });
-        this.hasMany(models.Arquivo, { 
-          foreignKey: 'id_empresa_dona', 
-          onDelete: 'cascade' 
-        });
         this.hasOne(models.Arquivo, { 
           foreignKey: 'id', 
           onDelete: 'CASCADE',

@@ -106,15 +106,9 @@ export default class Funcionario extends Model{
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
           },
-          id_foto: { // aqui no caso <----
+          id_foto: {
             type: Sequelize.INTEGER,
             allowNull: true,
-            // references: {
-            //   model: 'arquivos',
-            //   key: 'id',
-            // },
-            // onDelete: 'CASCADE',
-            // onUpdate: 'CASCADE',
           },
           created_at: {
             type: Sequelize.DATE,
@@ -131,7 +125,6 @@ export default class Funcionario extends Model{
         
         this.addHook("beforeSave", funcionario => {
             if(funcionario.password){
-                console.log('func - '+funcionario.password)
                 funcionario.password_hash = md5(funcionario.password)
             }
         });
