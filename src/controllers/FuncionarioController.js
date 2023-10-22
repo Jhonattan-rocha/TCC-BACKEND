@@ -41,11 +41,10 @@ class FuncionarioController {
       
       await InitTenant(req.body.tenant_id, true);
 
-      console.log(req.body)
       const funcionario = await Funcionario.create(req.body, req.fields);
       funcionario.setDataValue("password", "Não interessa");
 
-      await auth_user.update({id_relacional: funcionario.id});
+      await auth_user.update({id_relacional: funcionario.id, id_foto: funcionario.id_foto ?? 0});
 
       return res.status(200).json({result: funcionario});
     }catch(err){
@@ -100,6 +99,7 @@ class FuncionarioController {
         });
       };
       const funcionario = await Funcionario.findByPk(id, req.fields);
+      const auth = await Auth.findOne({where: {cpf_cnpj: funcionario.cpf}});
 
       if (!funcionario){
         return res.status(404).json({
@@ -107,7 +107,9 @@ class FuncionarioController {
           error: "Usuario não encontrado"
         });
       };
+
       const result = await funcionario.update({...req.body});
+      const result2 = await auth.update({email: result.email, cpf_cnpj: result.cpf, id_foto: result.id_foto ?? 0});
 
       return res.status(200).json({result: result});
     }catch(err){
@@ -130,6 +132,7 @@ class FuncionarioController {
         });
       };
       const funcionario = await Funcionario.findByPk(id, req.fields);
+      const auth = await Auth.findOne({where: {cpf_cnpj: funcionario.cpf}});
 
       if (!funcionario){
         return res.status(404).json({
@@ -138,6 +141,7 @@ class FuncionarioController {
         });
       };
 
+      await auth.destroy();
       await funcionario.destroy();
 
       return res.status(200).json({result: funcionario});

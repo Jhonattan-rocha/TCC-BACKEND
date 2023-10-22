@@ -39,14 +39,19 @@ export default class Auth extends Model{
           },
           password_hash:{
             type: Sequelize.STRING(50),
+            allowNull: false,
           },
           tenant_id: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
           },
           salt: {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: false,
+          },
+          id_foto: {
+            type: Sequelize.INTEGER,
+            allowNull: true,
           },
           created_at: {
             type: Sequelize.DATE,
@@ -54,7 +59,7 @@ export default class Auth extends Model{
           },
           updated_at: {
             type: Sequelize.DATE,
-            allowNull: false
+            allowNull: false,
           }
         },{
             sequelize,

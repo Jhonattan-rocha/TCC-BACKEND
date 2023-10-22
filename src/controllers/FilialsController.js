@@ -42,7 +42,7 @@ class FilialController{
 
             const filial = await Filial.create(req.body, req.fields)
 
-            await auth_user.update({id_relacional: filial.id});
+            await auth_user.update({id_relacional: filial.id, id_foto: filial.id_foto ?? 0});
             return res.status(200).json({result: filial})
           }catch(err){
             return res.status(400).json({
@@ -94,7 +94,8 @@ class FilialController{
               });
             };
             const filial = await Filial.findByPk(id, req.fields);
-      
+            const auth = await Auth.findOne({where: {cpf_cnpj: filial.cnpj}});
+
             if (!filial){
               return res.status(404).json({
                 result: null,
@@ -103,7 +104,8 @@ class FilialController{
             };
       
             const result = await filial.update(req.body);
-      
+            await auth.update({email: result.email, cpf_cnpj: result.cnpj, id_foto: result.id_foto ?? 0});
+
             return res.status(200).json({result: result});
         }catch(err){
             return res.status(400).json({
@@ -123,7 +125,8 @@ class FilialController{
               });
             };
             const filial = await Filial.findByPk(id, req.fields);
-      
+            const auth = await Auth.findOne({where: {cpf_cnpj: filial.cnpj}});
+
             if (!filial){
               return res.status(404).json({
                 result: null,
@@ -132,6 +135,7 @@ class FilialController{
             };
       
             await filial.destroy();
+            await auth.destroy();
       
             return res.status(200).json({result: filial});
         }catch(err){

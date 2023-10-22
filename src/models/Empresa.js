@@ -92,12 +92,6 @@ class Empresa extends Model{
           id_foto: {
             type: Sequelize.INTEGER,
             allowNull: true,
-            // references: {
-            //   model: 'arquivos',
-            //   key: 'id',
-            // },
-            // onDelete: 'CASCADE',
-            // onUpdate: 'CASCADE',
           },
           tenantOk: {
             type: Sequelize.BOOLEAN,

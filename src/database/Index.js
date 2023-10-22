@@ -40,7 +40,7 @@ export async function InitTenant(schema, tenantOk=false){
     await connection.query(`USE ${schema};`);
     models.forEach(model=>{model.init(connection)});
     if(!tenantOk){
-        await connection.sync();
+        await connection.sync({force: true});
         await connection.query(`
             drop procedure if exists CountChamados;
 

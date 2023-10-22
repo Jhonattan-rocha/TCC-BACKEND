@@ -44,14 +44,12 @@ class EmpresaController{
     
         const empresa = await Empresa.create(req.body, req.fields);
 
-        await auth_user.update({id_relacional: empresa.id});
+        await auth_user.update({id_relacional: empresa.id, id_foto: empresa.id_foto ?? 0});
         empresa.setDataValue('password', 'Não interessa');
-        // Envie uma única resposta de sucesso no final
         return res.status(200).json({ result: empresa });
 
       } catch (err) {
         console.error(err);
-        // Envie uma única resposta de erro no final
         return res.status(400).json({
           result: null,
           error: "Erro ao cadastrar a empresa"
@@ -102,9 +100,9 @@ class EmpresaController{
               });
             };
 
-            // importante, se for filtrado os dados, apenas os dados filtrados podem ser atualizados
             const empresa = await Empresa.findByPk(id, req.fields);
-      
+            const auth = await Auth.findOne({where: {cpf_cnpj: empresa.cnpj}});
+            
             if (!empresa){
               return res.status(404).json({
                 result: null,
@@ -113,7 +111,8 @@ class EmpresaController{
             };
       
             const result = await empresa.update(req.body);
-            
+            await auth.update({email: result.email, cpf_cnpj: result.cnpj, id_foto: result.id_foto ?? 0});
+
             return res.status(200).json({result: result});
         }catch(err){
             return res.status(400).json({
@@ -135,7 +134,8 @@ class EmpresaController{
 
             // caso o filtro de dados seja feito, apenas aqueles dados que forem filtrados serão deletados
             const empresa = await Empresa.findByPk(id, req.fields);
-      
+            const auth = await Auth.findOne({where: {cpf_cnpj: empresa.cnpj}});
+
             if (!empresa){
               return res.status(200).json({
                 result: null,
@@ -144,6 +144,7 @@ class EmpresaController{
             };
       
             await empresa.destroy();
+            await auth.destroy();
                 
             return res.status(200).json({result: empresa});
           }catch(err){
