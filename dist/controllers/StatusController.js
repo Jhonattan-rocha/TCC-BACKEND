@@ -3,7 +3,7 @@
 class StatusController {
   async store(req, res) {
     try{
-
+      console.log(req.dbConnection)
       const status = await _Status2.default.create(req.body, req.fields)
       return res.status(200).json({result: status})
     }catch(err){

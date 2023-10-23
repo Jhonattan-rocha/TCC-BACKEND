@@ -12,10 +12,59 @@ var _Comentario = require('../models/Comentario'); var _Comentario2 = _interopRe
 var _Status = require('../models/Status'); var _Status2 = _interopRequireDefault(_Status);
 var _SubCategoria = require('../models/SubCategoria'); var _SubCategoria2 = _interopRequireDefault(_SubCategoria);
 var _Cargo = require('../models/Cargo'); var _Cargo2 = _interopRequireDefault(_Cargo);
+var _Auth = require('../models/Auth'); var _Auth2 = _interopRequireDefault(_Auth);
 
-const models = [_Empresa2.default, _Funcionario2.default, _Categoria2.default, _Status2.default, _Chamado2.default, _Filial2.default, _Arquivo2.default, _Perfil2.default, _Setores2.default, _Comentario2.default, _SubCategoria2.default, _Cargo2.default]
+var _TenantLoader = require('../services/TenantLoader');
 
- const connection = new (0, _sequelize2.default)(_database2.default); exports.connection = connection
+ async function InitTenantAuth(schema, tenantOk=false){
+    const connection = new (0, _sequelize2.default)(_database2.default)
+    const models = [_Auth2.default]
 
-models.forEach(model=>{model.init(exports.connection)});
-models.forEach(model=>{model.associate && model.associate(exports.connection.models)});
+    await connection.query(`CREATE SCHEMA IF NOT EXISTS ${schema};`)
+    await connection.query(`USE ${schema};`)
+    models.forEach(model=>{model.init(connection)});
+    if(!tenantOk){
+        await connection.sync();
+    }
+    
+    _TenantLoader.InsertConnection.call(void 0, 'auth', connection);
+} exports.InitTenantAuth = InitTenantAuth;
+
+
+ async function InitTenant(schema, tenantOk=false){
+    const models = [_Perfil2.default, _Cargo2.default, _Status2.default, _Empresa2.default, _Funcionario2.default, _Setores2.default, _Filial2.default, _Categoria2.default, _SubCategoria2.default, _Chamado2.default, _Comentario2.default, _Arquivo2.default]
+
+    const connection = new (0, _sequelize2.default)(_database2.default)
+
+    await connection.query(`CREATE SCHEMA IF NOT EXISTS ${schema};`);
+    await connection.query(`USE ${schema};`);
+    models.forEach(model=>{model.init(connection)});
+    if(!tenantOk){
+        await connection.sync({force: true});
+        await connection.query(`
+            drop procedure if exists CountChamados;
+
+            delimiter $$
+
+            create procedure CountChamados()
+            begin
+                select count(ch.id_status) as qtd, ch.id_status, sts.nome, date(ch.created_at) as 'date', date(ch.updated_at) as 'ModifieDdate', dtfim
+                from chamados as ch inner join statuses as sts on ch.id_status = sts.id group by ch.id_status, sts.nome, ch.created_at, ch.updated_at, dtfim order by ch.created_at;
+            end$$
+
+            delimiter ;
+        `);
+    }
+    
+    models.forEach(model=>{model.associate && model.associate(connection.models)});
+
+    _TenantLoader.InsertConnection.call(void 0, schema, connection);
+} exports.InitTenant = InitTenant;
+
+ async function InitTenantModels(schema, connection){
+    const models = [_Perfil2.default, _Cargo2.default, _Status2.default, _Empresa2.default, _Funcionario2.default, _Setores2.default, _Filial2.default, _Categoria2.default, _SubCategoria2.default, _Chamado2.default, _Comentario2.default, _Arquivo2.default]
+    await connection.query(`CREATE SCHEMA IF NOT EXISTS ${schema};`);
+    await connection.query(`USE ${schema};`);
+    models.forEach(model=>{model.init(connection)});
+    models.forEach(model=>{model.associate && model.associate(connection.models)});
+} exports.InitTenantModels = InitTenantModels;

@@ -52,8 +52,6 @@ class SubCategoriaContrroller {
 
       const id = req.params.id;
 
-      console.log(id, "subcategoria ------------------------")
-      
       if (!id){
         return res.status(404).json({
           result: null,

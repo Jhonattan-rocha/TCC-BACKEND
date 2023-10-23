@@ -17,14 +17,22 @@
             id_chamado: {
                 type: _sequelize2.default.INTEGER,
                 allowNull: false,
-                foreignKey: true,
-                references: {model: "chamados", key: "id"},
+                references: {
+                  model: 'chamados',
+                  key: 'id',
+                },
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
             },
             id_funcionario_criador: {
                 type: _sequelize2.default.INTEGER,
                 allowNull: false,
-                foreignKey: true,
-                references: {model: "funcionarios", key: "id"},
+                references: {
+                  model: 'funcionarios',
+                  key: 'id',
+                },
+                onDelete: 'CASCADE',
+                onUpdate: 'CASCADE',
             },
             created_at: {
                 type: _sequelize2.default.DATE,

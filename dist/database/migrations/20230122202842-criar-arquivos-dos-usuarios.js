@@ -28,16 +28,6 @@ module.exports = {
           onDelete: 'CASCADE',
           onUpdate: 'CASCADE',
       },
-      id_empresa_dona: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'empresas',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-      },
       mime_type: {
         type: Sequelize.STRING,
         allowNull: true

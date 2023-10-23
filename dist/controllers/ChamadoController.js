@@ -20,6 +20,7 @@ class ChamadoController {
       const chamados = await _Chamado2.default.findAll(rules);
       return res.status(200).json({result: chamados});
     }catch(err){
+      console.log(err)
       return res.status(400).json({
         result: null,
         error: "Erro ao buscar os Chamados"

@@ -10,12 +10,6 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true
       },
-      id_empresa: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        foreignKey: true,
-        references: {model: "empresas", key: "id"},
-      },
       razao_social: {
         type: Sequelize.STRING,
       },

@@ -8,8 +8,9 @@ var _md5 = require('md5'); var _md52 = _interopRequireDefault(_md5);
           id: {
             type: _sequelize2.default.INTEGER,
             allowNull: false,
-            primaryKey: true,
+            unique: true,
             autoIncrement: true,
+            primaryKey: true,
           },
           nome: {
             type: _sequelize2.default.STRING(100),
@@ -73,9 +74,15 @@ var _md5 = require('md5'); var _md52 = _interopRequireDefault(_md5);
             allowNull: true,
             references: {model: "setores", key: "id"},
           },
-          perfil_id: {
-            type: _sequelize2.default.INTEGER,
+          setor_responsavel: { 
+            type: _sequelize2.default.INTEGER, 
             foreignKey: true,
+            allowNull: true,
+            references: {model: "setores", key: "id"},
+          },
+          perfil_id: {
+            type: _sequelize2.default.INTEGER, 
+            foreignKey: true, 
             allowNull: true,
             references: {model: "perfils", key: "id"},
           },
@@ -92,18 +99,16 @@ var _md5 = require('md5'); var _md52 = _interopRequireDefault(_md5);
           id_empresa: {
             type: _sequelize2.default.INTEGER,
             allowNull: false,
-            foreignKey: true,
-            references: {model: "empresas", key: "id"},
-          },
-          id_foto: {
-            type: _sequelize2.default.INTEGER,
-            allowNull: true,
             references: {
-              model: 'arquivos',
+              model: 'empresas',
               key: 'id',
             },
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE',
+          },
+          id_foto: {
+            type: _sequelize2.default.INTEGER,
+            allowNull: true,
           },
           created_at: {
             type: _sequelize2.default.DATE,
@@ -120,7 +125,6 @@ var _md5 = require('md5'); var _md52 = _interopRequireDefault(_md5);
         
         this.addHook("beforeSave", funcionario => {
             if(funcionario.password){
-                console.log('func - '+funcionario.password)
                 funcionario.password_hash = _md52.default.call(void 0, funcionario.password)
             }
         });
@@ -163,6 +167,10 @@ var _md5 = require('md5'); var _md52 = _interopRequireDefault(_md5);
       });
       this.belongsTo(models.Setores, {
         foreignKey: 'setor',
+        onDelete: "cascade"
+      });
+      this.belongsTo(models.Setores, {
+        foreignKey: 'setor_responsavel',
         onDelete: "cascade"
       });
     }

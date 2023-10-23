@@ -20,13 +20,13 @@ class ArquivosController{
  
             try{
                 const {originalname, filename, mimetype} = req.file;
-                const {id_dono, id_empresa_dona, id_chamado} = req.body;
+                const {id_dono, id_chamado} = req.body;
 
                 const arquivo = await _Arquivo2.default.create({
                     originalname: originalname,
                     filename: filename,
                     id_dono: id_dono,
-                    id_empresa_dona: id_empresa_dona,
+
                     mime_type: mimetype,
                     id_chamado: id_chamado,
                 });

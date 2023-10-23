@@ -57,6 +57,39 @@ module.exports = {
             }
         },
       },
+      endereco: {
+        type: Sequelize.STRING(255),
+        allowNull: true
+      },
+      bairro: {
+        type: Sequelize.STRING(255),
+        allowNull: true
+      },
+      numero: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+      },
+      cep:{
+        type: Sequelize.STRING(20),
+        allowNull: true,
+          validate: {
+            cpfValidator: function(value){
+                if (String(value).replace(/\D/g, '').length !== 8){
+                    throw new Error("CPF inválido")
+                }
+            }
+        }
+      },
+      id_foto: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'arquivos',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,

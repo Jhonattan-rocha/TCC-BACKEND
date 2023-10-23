@@ -6,8 +6,9 @@ class Arquivo extends _sequelize.Model{
           id: {
             type: _sequelize2.default.INTEGER,
             allowNull: false,
-            primaryKey: true,
+            unique: true,
             autoIncrement: true,
+            primaryKey: true,
           },
           originalname: {
             type: _sequelize2.default.STRING(200),
@@ -21,17 +22,7 @@ class Arquivo extends _sequelize.Model{
             type: _sequelize2.default.INTEGER,
             allowNull: true,
             references: {
-                model: 'funcionarios',
-                key: 'id',
-              },
-              onDelete: 'CASCADE',
-              onUpdate: 'CASCADE',
-          },
-          id_empresa_dona: {
-            type: _sequelize2.default.INTEGER,
-            allowNull: true,
-            references: {
-              model: 'empresas',
+              model: 'funcionarios',
               key: 'id',
             },
             onDelete: 'CASCADE',
@@ -66,10 +57,6 @@ class Arquivo extends _sequelize.Model{
     };
 
     static associate(models){
-      this.belongsTo(models.Empresa, {
-        foreignKey: 'id_empresa_dona',
-        onDelete: 'cascade',
-      });
       this.belongsTo(models.Funcionario, {
         foreignKey: "id_dono",
         onDelete: "cascade"
@@ -85,7 +72,7 @@ class Arquivo extends _sequelize.Model{
         sourceKey: 'id_foto'
       });
       this.belongsTo(models.Filial, {
-        foreignKey: 'id', 
+        foreignKey: 'id',  
         onDelete: 'CASCADE',
         sourceKey: 'id_foto'
       });

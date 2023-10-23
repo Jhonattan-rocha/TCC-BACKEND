@@ -7,8 +7,9 @@ class Empresa extends _sequelize.Model{
           id:{
             type: _sequelize2.default.INTEGER,
             allowNull: false,
+            unique: true,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
           },
           razao_social: {
             type: _sequelize2.default.STRING,
@@ -91,12 +92,11 @@ class Empresa extends _sequelize.Model{
           id_foto: {
             type: _sequelize2.default.INTEGER,
             allowNull: true,
-            references: {
-              model: 'arquivos',
-              key: 'id',
-            },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
+          },
+          tenantOk: {
+            type: _sequelize2.default.BOOLEAN,
+            allowNull: false,
+            defaultValue: true
           },
           created_at: {
             type: _sequelize2.default.DATE,
@@ -104,7 +104,7 @@ class Empresa extends _sequelize.Model{
           },
           updated_at: {
             type: _sequelize2.default.DATE,
-            allowNull: false
+            allowNull: false 
           }
         }, {sequelize, tableName: 'empresas'});
 
@@ -119,10 +119,6 @@ class Empresa extends _sequelize.Model{
     
     static associate(models){
         this.hasMany(models.Filial, { foreignKey: 'id_empresa', onDelete: 'cascade' });
-        this.hasMany(models.Arquivo, { 
-          foreignKey: 'id_empresa_dona', 
-          onDelete: 'cascade' 
-        });
         this.hasOne(models.Arquivo, { 
           foreignKey: 'id', 
           onDelete: 'CASCADE',

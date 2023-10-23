@@ -84,6 +84,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: true,
       },
+      tenantOk: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -181,12 +186,6 @@ module.exports = {
       },
       password_hash:{
         type: Sequelize.STRING,
-      },
-      id_empresa: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        foreignKey: true,
-        references: {model: "empresas", key: "id"},
       },
       id_foto: {
         type: Sequelize.INTEGER,

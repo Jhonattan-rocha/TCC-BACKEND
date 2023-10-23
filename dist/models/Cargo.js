@@ -8,7 +8,7 @@
             allowNull: false,
             unique: true,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
           },
           nome: {
             type: _sequelize2.default.STRING(200),

@@ -6,8 +6,9 @@
           id: {
             type: _sequelize2.default.INTEGER,
             allowNull: false,
-            primaryKey: true,
+            unique: true,
             autoIncrement: true,
+            primaryKey: true,
           },
           causa: {
             type: _sequelize2.default.STRING(255),
@@ -23,9 +24,13 @@
           },
           id_status:{
             type: _sequelize2.default.INTEGER,
-            allowNull: false,
-            foreignKey: true,
-            references: {model: "statuses", key: "id"},
+            allowNull: true,
+            references: {
+              model: 'statuses',
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
           dtcriação: {
             type: _sequelize2.default.DATE,
@@ -39,25 +44,42 @@
           id_funcionario_criador: {
             type: _sequelize2.default.INTEGER,
             allowNull: false,
-            foreignKey: true,
-            references: {model: "funcionarios", key: "id"},
+            references: {
+              model: 'funcionarios',
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
           id_funcionario_resp: {
             type: _sequelize2.default.INTEGER,
-            foreignKey: true,
-            references: {model: "funcionarios", key: "id"},
+            allowNull: true,
+            references: {
+              model: 'funcionarios',
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
           categoria: {
             type: _sequelize2.default.INTEGER,
-            foreignKey: true,
             allowNull: true,
-            references: {model: "categorias", key: "id"}, 
+            references: {
+              model: 'categorias',
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
           subcategoria: {
             type: _sequelize2.default.INTEGER,
-            foreignKey: true,
             allowNull: true,
-            references: {model: "subcategorias", key: "id"}, 
+            references: {
+              model: 'subcategorias',
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
           agendamento: {
             type: _sequelize2.default.DATE,
@@ -65,9 +87,13 @@
           },
           setor: {
             type: _sequelize2.default.INTEGER,
-            foreignKey: true,
             allowNull: true,
-            references: {model: "setores", key: "id"},
+            references: {
+              model: 'setores',
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
           created_at: {
             type: _sequelize2.default.DATE,

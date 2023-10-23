@@ -65,7 +65,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         foreignKey: true,
         allowNull: true,
-        references: {model: "perfils", key: "id"},
+        references: {model: "pefils", key: "id"},
       },
       password_hash:{
         type: Sequelize.STRING,

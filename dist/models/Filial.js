@@ -8,14 +8,19 @@ class Filial extends _sequelize.Model{
           id:{
             type: _sequelize2.default.INTEGER,
             allowNull: false,
+            unique: true,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
           },
           id_empresa: {
             type: _sequelize2.default.INTEGER,
             allowNull: false,
-            foreignKey: true,
-            references: {model: "empresas", key: "id"},
+            references: {
+              model: 'empresas',
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
           razao_social: {
             type: _sequelize2.default.STRING,
@@ -81,12 +86,12 @@ class Filial extends _sequelize.Model{
           id_foto: {
             type: _sequelize2.default.INTEGER,
             allowNull: true,
-            references: {
-              model: 'arquivos',
-              key: 'id',
-            },
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE',
+            // references: {
+            //   model: 'arquivos',
+            //   key: 'id',
+            // },
+            // onDelete: 'CASCADE',
+            // onUpdate: 'CASCADE',
           },
           created_at: {
             type: _sequelize2.default.DATE,

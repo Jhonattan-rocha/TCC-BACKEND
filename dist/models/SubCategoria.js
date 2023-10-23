@@ -8,13 +8,17 @@
             allowNull: false,
             unique: true,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
           },
           id_categoria:{
             type: _sequelize2.default.INTEGER,
-            allowNull: false,
-            foreignKey: true,
-            references: {model: "categorias", key: "id"},
+            allowNull: true,
+            references: {
+              model: 'categorias',
+              key: 'id',
+            },
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE',
           },
           prioridade: {
             type: _sequelize2.default.INTEGER,

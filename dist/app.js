@@ -1,6 +1,4 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }require('./database');
-
-var _funcionarioRoutes = require('./routes/funcionarioRoutes'); var _funcionarioRoutes2 = _interopRequireDefault(_funcionarioRoutes);
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _funcionarioRoutes = require('./routes/funcionarioRoutes'); var _funcionarioRoutes2 = _interopRequireDefault(_funcionarioRoutes);
 var _chamadoRoutes = require('./routes/chamadoRoutes'); var _chamadoRoutes2 = _interopRequireDefault(_chamadoRoutes);
 var _tokenRoutes = require('./routes/tokenRoutes'); var _tokenRoutes2 = _interopRequireDefault(_tokenRoutes);
 var _empresaRoutes = require('./routes/empresaRoutes'); var _empresaRoutes2 = _interopRequireDefault(_empresaRoutes);
@@ -71,6 +69,5 @@ class App {
   }
 
 }
-
 
 exports. default = new App().app;

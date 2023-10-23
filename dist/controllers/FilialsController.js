@@ -1,7 +1,12 @@
-"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _Filial = require('../models/Filial'); var _Filial2 = _interopRequireDefault(_Filial);
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; } function _nullishCoalesce(lhs, rhsFn) { if (lhs != null) { return lhs; } else { return rhsFn(); } }var _Index = require('../database/Index');
+var _Auth = require('../models/Auth'); var _Auth2 = _interopRequireDefault(_Auth);
+var _Filial = require('../models/Filial'); var _Filial2 = _interopRequireDefault(_Filial);
+var _TenantLoader = require('../services/TenantLoader');
 
 class FilialController{
     async store(req, res){
+        await _Index.InitTenantAuth.call(void 0, 'auth', true);
+
         const copy = {...req.body}
 
         if (String(copy.cnpj).replace(/\D/g, '').length !== 14){
@@ -14,9 +19,16 @@ class FilialController{
         req.body.cnpj = String(req.body.cnpj).replace(/\D/g, '');
         req.body.telefone = String(req.body.telefone).replace(/\D/g, '');
 
-        const find = await _Filial2.default.findOne({where: {cnpj: req.body.cnpj}})
-        
-        if(find){
+        try{
+          const find = await _Auth2.default.findOne({ where: { cpf_cnpj: req.body.cnpj } });
+    
+          if(find) {
+            return res.status(409).json({
+              result: null,
+              error: "CNPJ já cadastrado"
+            });
+          }
+        }catch(err){
           return res.status(409).json({
             result: null,
             error: "CNPJ já cadastrado"
@@ -24,8 +36,13 @@ class FilialController{
         }
 
         try {
+            const auth_user = await _Auth2.default.create({ nome: req.body.nome, cpf_cnpj: req.body.cnpj, email: req.body.email, password_hash: md5(req.body.password), tenant_id: req.body.tenant_id, salt: "" });
+
+            await _Index.InitTenant.call(void 0, req.body.tenant_id, true)
+
             const filial = await _Filial2.default.create(req.body, req.fields)
 
+            await auth_user.update({id_relacional: filial.id, id_foto: _nullishCoalesce(filial.id_foto, () => ( 0))});
             return res.status(200).json({result: filial})
           }catch(err){
             return res.status(400).json({
@@ -77,7 +94,8 @@ class FilialController{
               });
             };
             const filial = await _Filial2.default.findByPk(id, req.fields);
-      
+            const auth = await _Auth2.default.findOne({where: {cpf_cnpj: filial.cnpj}});
+
             if (!filial){
               return res.status(404).json({
                 result: null,
@@ -86,7 +104,8 @@ class FilialController{
             };
       
             const result = await filial.update(req.body);
-      
+            await auth.update({email: result.email, cpf_cnpj: result.cnpj, id_foto: _nullishCoalesce(result.id_foto, () => ( 0))});
+
             return res.status(200).json({result: result});
         }catch(err){
             return res.status(400).json({
@@ -106,7 +125,8 @@ class FilialController{
               });
             };
             const filial = await _Filial2.default.findByPk(id, req.fields);
-      
+            const auth = await _Auth2.default.findOne({where: {cpf_cnpj: filial.cnpj}});
+
             if (!filial){
               return res.status(404).json({
                 result: null,
@@ -115,6 +135,7 @@ class FilialController{
             };
       
             await filial.destroy();
+            await auth.destroy();
       
             return res.status(200).json({result: filial});
         }catch(err){

@@ -5,9 +5,10 @@
         super.init({
           id: {
             type: _sequelize2.default.INTEGER,
-            primaryKey: true,
+            allowNull: false,
+            unique: true,
             autoIncrement: true,
-            unique: true
+            primaryKey: true,
           },
           prioridade: {
             type: _sequelize2.default.INTEGER,

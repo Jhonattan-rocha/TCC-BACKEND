@@ -6,19 +6,13 @@
             id: {
                 type: _sequelize2.default.INTEGER,
                 allowNull: false,
-                primaryKey: true,
+                unique: true,
                 autoIncrement: true,
-                unique: true
+                primaryKey: true,
             },
             nome: {
                 type: _sequelize2.default.STRING(255),
                 allowNull: false,
-            },
-            responsavel: {
-                type: _sequelize2.default.INTEGER,
-                allowNull: true,
-                foreignKey: true,
-                references: {model: "funcionarios", key: "id"},
             },
             created_at: {
                 type: _sequelize2.default.DATE,
@@ -35,7 +29,6 @@
     }
 
     static associate(models){
-        this.belongsTo(models.Funcionario, { foreignKey: "responsavel", onDelete: 'cascade' });
         this.hasMany(models.Chamado, {
             foreignKey: 'setor',
             onDelete: "cascade"
