@@ -31,7 +31,6 @@ class TokenController {
             const token = _jsonwebtoken2.default.sign({id, email, tenant_id}, process.env.TOKENSECRET, {
                 expiresIn: ex,
             });
-            console.log(token)
             console.log(user)
             return res.status(200).json({token: token, user: { nome: user.nome, id: user.id_relacional, id_foto: user.id_foto, email: user.email, tenant_id: user.tenant_id}});
         }  

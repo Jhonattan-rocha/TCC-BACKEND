@@ -8,7 +8,7 @@ var _TenantMiddleWare = require('../middlewares/TenantMiddleWare'); var _TenantM
 
 const router = new (0, _express.Router)();
 
-router.post('/funcionario/', _validateCPFCNPJ2.default, _TenantMiddleWare2.default, _FuncionarioController2.default.store);
+router.post('/funcionario/', _loginriquired2.default, _validateCPFCNPJ2.default, _TenantMiddleWare2.default, _FuncionarioController2.default.store);
 router.get("/funcionarios/", _loginriquired2.default, _getAtributes2.default, _filter2.default, _TenantMiddleWare2.default, _FuncionarioController2.default.index);
 router.get("/funcionario/:id", _loginriquired2.default, _getAtributes2.default, _TenantMiddleWare2.default, _FuncionarioController2.default.show);
 router.put('/funcionario/:id', _loginriquired2.default, _getAtributes2.default, _TenantMiddleWare2.default, _FuncionarioController2.default.update);
