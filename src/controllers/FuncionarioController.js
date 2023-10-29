@@ -5,7 +5,6 @@ import Funcionario from "../models/Funcionario";
 import md5 from "md5";
 
 class FuncionarioController {
-  //criar um usuario, store 
   async store(req, res) {
     try {
 

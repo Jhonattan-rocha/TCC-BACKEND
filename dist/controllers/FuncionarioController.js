@@ -5,7 +5,6 @@ var _Funcionario = require('../models/Funcionario'); var _Funcionario2 = _intero
 var _md5 = require('md5'); var _md52 = _interopRequireDefault(_md5);
 
 class FuncionarioController {
-  //criar um usuario, store 
   async store(req, res) {
     try {
 
