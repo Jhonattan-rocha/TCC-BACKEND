@@ -36,9 +36,9 @@ class FilialController{
         }
 
         try {
-            const auth_user = await Auth.create({ nome: req.body.nome, cpf_cnpj: req.body.cnpj, email: req.body.email, password_hash: md5(req.body.password), tenant_id: req.body.tenant_id, salt: "" });
+            const auth_user = await Auth.create({ nome: req.body.nome, cpf_cnpj: req.body.cnpj, email: req.body.email, password_hash: md5(req.body.password), tenant_id: req.tenant_id, salt: "" });
 
-            await InitTenant(req.body.tenant_id, true)
+            await InitTenant(req.tenant_id, true)
 
             const filial = await Filial.create(req.body, req.fields)
 

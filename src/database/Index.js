@@ -41,19 +41,19 @@ export async function InitTenant(schema, tenantOk=false){
     models.forEach(model=>{model.init(connection)});
     if(!tenantOk){
         await connection.sync({force: true});
-        await connection.query(`
-            drop procedure if exists CountChamados;
+        // await connection.query(`
+        //     drop procedure if exists CountChamados;
 
-            delimiter $$
+        //     delimiter $$;
 
-            create procedure CountChamados()
-            begin
-                select count(ch.id_status) as qtd, ch.id_status, sts.nome, date(ch.created_at) as 'date', date(ch.updated_at) as 'ModifieDdate', dtfim
-                from chamados as ch inner join statuses as sts on ch.id_status = sts.id group by ch.id_status, sts.nome, ch.created_at, ch.updated_at, dtfim order by ch.created_at;
-            end$$
+        //     create procedure CountChamados()
+        //     begin
+        //         select count(ch.id_status) as qtd, ch.id_status, sts.nome, date(ch.created_at) as 'date', date(ch.updated_at) as 'ModifieDdate', dtfim
+        //         from chamados as ch inner join statuses as sts on ch.id_status = sts.id group by ch.id_status, sts.nome, ch.created_at, ch.updated_at, dtfim order by ch.created_at;
+        //     end$$
 
-            delimiter ;
-        `);
+        //     delimiter ;
+        // `);
     }
     
     models.forEach(model=>{model.associate && model.associate(connection.models)});

@@ -8,7 +8,6 @@ class FuncionarioController {
   //criar um usuario, store 
   async store(req, res) {
     try {
-
       await _Index.InitTenantAuth.call(void 0, 'auth', true);
 
       if (String(req.body.cpf).replace(/\D/g, '').length !== 11){
@@ -37,9 +36,9 @@ class FuncionarioController {
         });
       }
 
-      const auth_user = await _Auth2.default.create({ nome: req.body.nome, cpf_cnpj: req.body.cpf, email: req.body.email, password_hash: _md52.default.call(void 0, req.body.password), tenant_id: req.body.tenant_id, salt: "" });
+      const auth_user = await _Auth2.default.create({ nome: req.body.nome, cpf_cnpj: req.body.cpf, email: req.body.email, password_hash: _md52.default.call(void 0, req.body.password), tenant_id: req.tenant_id, salt: "" });
       
-      await _Index.InitTenant.call(void 0, req.body.tenant_id, true);
+      await _Index.InitTenant.call(void 0, req.tenant_id, true);
 
       const funcionario = await _Funcionario2.default.create(req.body, req.fields);
       funcionario.setDataValue("password", "Não interessa");

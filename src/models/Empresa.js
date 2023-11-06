@@ -82,7 +82,7 @@ class Empresa extends Model{
             type: Sequelize.STRING(20),
             allowNull: true,
               validate: {
-                cpfValidator: function(value){
+                cepvalidator: function(value){
                     if (String(value).length > 0 && String(value).replace(/\D/g, '').length !== 8){
                         throw new Error("cep inválido")
                     }
