@@ -14,14 +14,20 @@ import SubCategoria from '../models/SubCategoria';
 import Cargo from "../models/Cargo";
 import Auth from "../models/Auth";
 
+import os from 'os';
+
 import {InsertConnection} from '../services/TenantLoader';
 
 export async function InitTenantAuth(schema, tenantOk=false){
     const connection = new Sequelize(database)
     const models = [Auth]
 
-    await connection.query(`CREATE SCHEMA IF NOT EXISTS ${schema};`)
-    await connection.query(`USE ${schema};`)
+    await connection.query(`CREATE SCHEMA IF NOT EXISTS ${schema};`);
+    await connection.query(`USE ${schema};`);
+    if(os.platform().toLowerCase().match("linux") && !tenantOk){
+        await connection.query(`GRANT ALL PRIVILEGES ON ${schema}.* TO 'jhonattan'@'localhost';`);
+        await connection.query(`FLUSH PRIVILEGES;`); 
+    }
     models.forEach(model=>{model.init(connection)});
     if(!tenantOk){
         await connection.sync();
@@ -38,14 +44,18 @@ export async function InitTenant(schema, tenantOk=false){
 
     await connection.query(`CREATE SCHEMA IF NOT EXISTS ${schema};`);
     await connection.query(`USE ${schema};`);
+    if(os.platform().toLowerCase().match("linux") && !tenantOk){
+        await connection.query(`GRANT ALL PRIVILEGES ON ${schema}.* TO 'jhonattan'@'localhost';`);
+        await connection.query(`FLUSH PRIVILEGES;`);
+    }
     models.forEach(model=>{model.init(connection)});
     if(!tenantOk){
         await connection.sync({force: true});
         // await connection.query(`
         //     drop procedure if exists CountChamados;
-
-        //     delimiter $$;
-
+//
+  //          delimiter $$
+//
         //     create procedure CountChamados()
         //     begin
         //         select count(ch.id_status) as qtd, ch.id_status, sts.nome, date(ch.created_at) as 'date', date(ch.updated_at) as 'ModifieDdate', dtfim
