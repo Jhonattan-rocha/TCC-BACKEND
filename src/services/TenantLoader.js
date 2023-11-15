@@ -13,6 +13,7 @@ export function InsertConnection(company_id, con) {
             tenantConnections.set(tenantKey, con);
             return true;
         } else {
+            con.close();
             return false; // Já existe uma conexão para este inquilino.
         }
     } catch (error) {
@@ -49,6 +50,7 @@ export function DeleteConnection(company_id) {
     try {
         const tenantKey = `tenant_${String(company_id).replace(/\D/, "")}`;
         if (tenantConnections.has(tenantKey)) {
+            tenantConnections.get(tenantKey).close();
             return tenantConnections.delete(tenantKey);
         } else {
             return false; // Nenhuma conexão encontrada para este inquilino.

@@ -19,8 +19,8 @@ app.listen(appConfig.PORT, appConfig.IP, async ()=>{
 
     const con = GetConnection('auth');
     if(!con){
-        await InitTenantAuth('auth', true);
-    }else{
+        await InitTenantAuth('auth', false);
+    }else{ 
         Auth.init(con);
     }
-})
+}) 
