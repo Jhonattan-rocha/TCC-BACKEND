@@ -6,6 +6,7 @@ class CargoContrroller {
       const cargo = await Cargo.create(req.body, req.fields)
       return res.status(200).json({result: cargo})
     }catch(err){
+      console.log(err)
       return res.status(400).json({
           result: null,
           error: "Erro ao criar o cargo"
