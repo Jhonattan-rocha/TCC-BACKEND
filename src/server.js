@@ -18,8 +18,8 @@ app.listen(appConfig.PORT, appConfig.IP, async ()=>{
     console.log(`rodando na url http://${appConfig.IP}:${appConfig.PORT}/`);
 
     const con = GetConnection('auth');
-    if(!con){
-        await InitTenantAuth('auth', false);
+    if(!con){ 
+        await InitTenantAuth('auth', true);
     }else{ 
         Auth.init(con);
     }

@@ -35,7 +35,7 @@ class TokenController {
             console.log(user)
             return res.status(200).json({token: token, user: { nome: user.nome, id: user.id_relacional, id_foto: user.id_foto, email: user.email, tenant_id: user.tenant_id}});
         }  
-    
+        console.log("Passou aqui e não achou", req.body)
         return res.status(404).json({
             result: null,
             error: "Usuário não encontrado, senha inválida"

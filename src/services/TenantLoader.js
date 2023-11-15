@@ -13,7 +13,7 @@ export function InsertConnection(company_id, con) {
             tenantConnections.set(tenantKey, con);
             return true;
         } else {
-            con.close();
+            // con.close();
             return false; // Já existe uma conexão para este inquilino.
         }
     } catch (error) {
