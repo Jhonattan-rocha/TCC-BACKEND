@@ -14,10 +14,6 @@ export default class Status extends Model {
                 type: Sequelize.STRING,
                 allowNull: false
               },
-              default: {
-                type: Sequelize.BOOLEAN,
-                allowNull: true,
-              },
               created_at: {
                 type: Sequelize.DATE,
                 allowNull: false,
